@@ -1,0 +1,33 @@
+<app-header title="Fincas"></app-header>
+
+<ion-content>
+  <ion-searchbar
+    (ionChange)="onSearchChange($event)"
+    [debounce]="250"
+    inputmode="text"
+    animated
+    placeholder="Buscar ..."
+  ></ion-searchbar>
+
+  <ion-card>
+    <ion-item
+      class="item-general"
+      *ngFor="let item of listadoFincas | search: textoBuscar:'name'"
+      (click)="openDetail(item)"
+    >
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      <ion-label>{{ item.name }}</ion-label>
+      <small>Ver detalle</small>
+    </ion-item>
+
+    <ion-card-content *ngIf="listadoFincas.length < 1">
+      No tienes fincas registradas
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="testapp-uno" (click)="presentModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

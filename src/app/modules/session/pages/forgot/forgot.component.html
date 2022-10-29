@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recuperar contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Correo electronico</ion-label>
+            <ion-input
+              formControlName="email"
+              placeholder="Ej. test@test.com"
+              type="email"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.email"
+            [mensajes]="mensajesFormulario.email"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >Enviar</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

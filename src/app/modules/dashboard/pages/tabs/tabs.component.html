@@ -1,0 +1,10 @@
+<!-- <ion-tabs > -->
+<ion-tabs (ionTabsDidChange)="setCurrentTab($event)">
+
+  <ion-tab-bar slot="bottom" color="purpura-dos">
+    <ion-tab-button [tab]="item.tab" *ngFor="let item of lista">
+      <ion-img src="../assets/images/{{item.img}}" ></ion-img>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

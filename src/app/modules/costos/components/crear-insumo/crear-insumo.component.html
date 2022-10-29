@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Crear insumo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tipo *</ion-label>
+            <ion-select
+              (ionChange)="changeProductTypes($event.detail.value)"
+              formControlName="product_type_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.productTypes"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.product_type_id"
+            [mensajes]="mensajesFormulario.product_type_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Producto *</ion-label>
+            <ion-select
+              (ionChange)="changeProduct($event.detail.value)"
+              formControlName="product_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listaProductos"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.product_id"
+            [mensajes]="mensajesFormulario.product_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="productoActual?.total_amount">
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked"
+              >Disponible del producto en inventario</ion-label
+            >
+            <ion-input disabled [value]="productoActual?.total_amount">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="productoActual?.unit_measurement_name">
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Unidad de medida</ion-label>
+            <ion-input disabled [value]="productoActual?.unit_measurement_name">
+            </ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Cantidad</ion-label>
+            <ion-input formControlName="amount" placeholder="" type="number">
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.amount"
+            [mensajes]="mensajesFormulario.amount"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

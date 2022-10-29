@@ -1,0 +1,134 @@
+<!-- 
+<app-header title="Reportes y análisis"></app-header>
+
+<ion-content [fullscreen]="true">
+    <div class="ion-no-padding">
+ 
+      <ion-card>
+        <ion-card-header>
+          Costos
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+        </ion-card-content>
+      </ion-card>
+   
+    </div>
+  </ion-content> -->
+
+<app-header title="Reportes y análisis"></app-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Finca *</ion-label>
+            <ion-select
+              (ionChange)="changeFinca($event.detail.value)"
+              formControlName="fincas"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listadoFincas"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.fincas"
+            [mensajes]="mensajesFormulario.fincas"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Lote *</ion-label>
+            <ion-select
+              (ionChange)="changeLote($event.detail.value)"
+              formControlName="lote"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listadoLotesFinca"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.lote"
+            [mensajes]="mensajesFormulario.lote"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Desde *</ion-label>
+            <ion-datetime
+              [max]="currentDate"
+              cancelText="Cancelar"
+              doneText="Aceptar"
+              formControlName="dateInit"
+              displayFormat="DD/MM/YYYY"
+            >
+            </ion-datetime>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.dateInit"
+            [mensajes]="mensajesFormulario.dateInit"
+          ></app-mensajes-error>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Hasta *</ion-label>
+            <ion-datetime
+              [max]="currentDate"
+              cancelText="Cancelar"
+              doneText="Aceptar"
+              formControlName="dateEnd"
+              displayFormat="DD/MM/YYYY"
+            >
+            </ion-datetime>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.dateEnd"
+            [mensajes]="mensajesFormulario.dateEnd"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >Generar</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <!-- <div class="ion-no-padding">
+ 
+        <ion-card>
+          <ion-card-header>
+            Costos
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+          </ion-card-content>
+        </ion-card>
+     
+      </div> -->
+</ion-content>

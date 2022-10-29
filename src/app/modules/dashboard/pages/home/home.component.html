@@ -1,0 +1,17 @@
+
+<app-header title="Home"></app-header>
+
+<ion-content >
+  <ion-card *ngFor="let item of lista">
+    <ion-item [routerLink]="['/dashboard/tabs/' + item.tab ]" >
+      <ion-img slot="start" src="../assets/images/{{item.img}}" ></ion-img>
+      <ion-label>{{item.nombre}}</ion-label>
+    </ion-item>    
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="ion-text-center"> <small>Versión {{version}}</small> </ion-title>  
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,297 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <!-- <ion-back-button text="Atrás" ></ion-back-button> -->
+      <ion-button class="boton-atras" (click)="onBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>Atrás
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Crear actividad1</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment
+    color="testapp-uno"
+    (ionChange)="segmentChanged($event)"
+    [value]="segmentSeletcted"
+  >
+    <ion-segment-button value="detalle" sele>
+      <ion-label>Detalle</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lotes">
+      <ion-label>Insumos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-slides
+    pager="false"
+    #tutorialSlides
+    [options]="slideOpts"
+    (ionSlideDidChange)="slideDidChange(tutorialSlides)"
+    (ionSlidesDidLoad)="slidesDidLoad(tutorialSlides)"
+  >
+    <ion-slide>
+      <form [formGroup]="formulario">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Fecha</ion-label>
+                <ion-text>
+                  {{ fecha }}
+                </ion-text>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Actividad *</ion-label>
+                <ion-select
+                  formControlName="type_activity_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.typeActivity"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.type_activity_id"
+                [mensajes]="mensajesFormulario.type_activity_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Finca *</ion-label>
+                <ion-select
+                  (ionChange)="changeFinca($event.detail.value)"
+                  formControlName="farm_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of listadoFincas"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.farm_id"
+                [mensajes]="mensajesFormulario.farm_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Lote *</ion-label>
+                <ion-select
+                  formControlName="lot_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of listadoLotesFinca"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.lot_id"
+                [mensajes]="mensajesFormulario.lot_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Etapa *</ion-label>
+                <ion-select
+                  formControlName="stage_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.stages"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.stage_id"
+                [mensajes]="mensajesFormulario.stage_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Tipo de labor *</ion-label>
+                <ion-select
+                  formControlName="type_work_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.typeWork"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.type_work_id"
+                [mensajes]="mensajesFormulario.type_work_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Cantidad</ion-label>
+                <ion-input
+                  (ionBlur)="blurCantidad()"
+                  formControlName="amount"
+                  placeholder=""
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.amount"
+                [mensajes]="mensajesFormulario.amount"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="input-currencyMask">
+            <ion-col>
+              <ion-item
+                [ngClass]="{
+                  inputError:
+                    formulario.controls.unit_cost.invalid &&
+                    formulario.controls.unit_cost.touched
+                }"
+              >
+                <ion-label position="stacked">Costo unitario</ion-label>
+                <input
+                  (change)="blurCantidad()"
+                  currencyMask
+                  [options]="{
+                    align: 'left',
+                    thousands: ',',
+                    decimal: '.',
+                    precision: 0,
+                    nullable: true
+                  }"
+                  formControlName="unit_cost"
+                  type="text"
+                />
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.unit_cost"
+                [mensajes]="mensajesFormulario.unit_cost"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Costo total</ion-label>
+                <ion-text>
+                  {{ formulario.controls.total_cost.value | currency }}
+                </ion-text>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.total_cost"
+                [mensajes]="mensajesFormulario.total_cost"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button color="testapp-tres" expand="block" (click)="submit()"
+                >GUARDAR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-item *ngFor="let item of detalleCosto.insumos">
+          <ion-label>
+            <ion-row>
+              <ion-col>
+                <ion-text color="testapp-dos"> Tipo: </ion-text>
+                <ion-text>
+                  {{ item.product_type_name }}
+                </ion-text>
+              </ion-col>
+              <ion-col>
+                <ion-text color="testapp-dos"> Producto: </ion-text>
+                <ion-text>
+                  {{ item.product_name }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-text color="testapp-dos"> Cantidad: </ion-text>
+                <ion-text>
+                  {{ item.amount }}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-label>
+        </ion-item>
+
+        <ion-card-content *ngIf="detalleCosto.insumos.length < 1">
+          No tienes insumos registrados
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="segmentSeletcted === 'lotes'"
+    (click)="presentModal()"
+  >
+    <ion-fab-button color="testapp-uno">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,24 @@
+form{
+    width: 100%;   
+}
+
+ion-card, ion-grid, ion-list{
+    width: 100%;
+}
+
+ion-grid{
+    ion-row{
+        ion-col{
+           
+            font-size: 12px;
+            p{            
+              font-size: 1px;
+            }
+        }
+    }
+}
+
+ion-text{
+    font-size: 12px;
+}
+

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    (ionChange)="onSearchChange($event)"
+    [debounce]="250"
+    inputmode="text"
+    animated
+    placeholder="Buscar ..."
+  ></ion-searchbar>
+
+  <ion-card>
+    <ion-list>
+      <ion-item
+        class="item-general"
+        [routerLink]="[
+          '/dashboard/tabs/inventario/detalle-producto/',
+          { id: item.id, name: item.product_name }
+        ]"
+        *ngFor="let item of listaProductos | search: textoBuscar:'product_name'"
+      >
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+        <ion-label>{{ item.product_name }}</ion-label>
+        <small>Ver detalle</small>
+      </ion-item>
+    </ion-list>
+    <ion-card-content *ngIf="listaProductos.length < 1">
+      No hay registros
+    </ion-card-content>
+  </ion-card>
+  <ion-row>
+    <ion-col>
+      <ion-button color="testapp-tres" expand="block" (click)="presentModal()"
+        >Crear productos</ion-button
+      >
+    </ion-col>
+  </ion-row>
+</ion-content>

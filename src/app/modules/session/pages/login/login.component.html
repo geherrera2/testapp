@@ -1,0 +1,96 @@
+<ion-content class="ion-padding">
+  <form [formGroup]="formulario" autocomplete="off">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-img src="../assets/img/logo1.png"></ion-img>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="titulo-projecto">
+        <ion-col class="ion-text-center">
+          <ion-text color="testapp-dos">
+            <h1><strong>testapp</strong></h1>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Correo electronico</ion-label>
+            <ion-input formControlName="email" type="email"> </ion-input>
+            <ion-icon
+              *ngIf="formulario.controls.email.value"
+              slot="end"
+              class="ion-margin-top"
+              color="testapp-uno"
+              name="close"
+              (click)="clear('email')"
+            ></ion-icon>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.email"
+            [mensajes]="mensajesFormulario.email"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input
+              formControlName="password"
+              [type]="showPassword ? 'password' : 'text'"
+              maxlength="20"
+            >
+            </ion-input>
+            <ion-icon
+              slot="end"
+              class="ion-margin-top"
+              color="testapp-uno"
+              [name]="showPassword ? 'eye' : 'eye-off'"
+              (click)="mostrarPassword()"
+            ></ion-icon>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.password"
+            [mensajes]="mensajesFormulario.password"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button
+            color="testapp-tres"
+            expand="block"
+            [disabled]="
+              formulario.invalid && (formulario.dirty || formulario.touched)
+            "
+            (click)="submit()"
+            >INGRESAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="forgot-password">
+        <ion-col class="ion-text-end">
+          <p [routerLink]="['/auth/recuperar']" color="testapp-tres">
+            ¿Has olvidado tu contraseña?
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title slot="start">
+      ¿No tienes cuenta ?
+      <span (click)="loadPage('auth/registro')">Registrate</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Agregar producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tipo *</ion-label>
+            <ion-select
+              (ionChange)="changeProductTypes($event.detail.value)"
+              formControlName="productTypes"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.productTypes"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.productTypes"
+            [mensajes]="mensajesFormulario.productTypes"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Producto *</ion-label>
+            <ion-select
+              (ionChange)="changeProduct($event.detail.value)"
+              formControlName="product_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listaProductos"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.product_id"
+            [mensajes]="mensajesFormulario.product_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Cantidad</ion-label>
+            <ion-input
+              (ionBlur)="blurCantidad()"
+              formControlName="amount"
+              placeholder=""
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.amount"
+            [mensajes]="mensajesFormulario.amount"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="input-currencyMask">
+        <ion-col>
+          <ion-item
+            [ngClass]="{
+              inputError:
+                formulario.controls.unit_cost.invalid &&
+                formulario.controls.unit_cost.touched
+            }"
+          >
+            <ion-label position="stacked">Costo unitario</ion-label>
+            <input
+              (change)="blurCantidad()"
+              currencyMask
+              [options]="{
+                align: 'left',
+                thousands: ',',
+                decimal: '.',
+                precision: 0,
+                nullable: true
+              }"
+              formControlName="unit_cost"
+              type="text"
+            />
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.unit_cost"
+            [mensajes]="mensajesFormulario.unit_cost"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Costo total</ion-label>
+            <ion-text>
+              {{ formulario.controls.total_cost.value | currency }}
+            </ion-text>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.total_cost"
+            [mensajes]="mensajesFormulario.total_cost"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

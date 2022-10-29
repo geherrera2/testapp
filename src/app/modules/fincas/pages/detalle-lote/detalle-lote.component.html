@@ -1,0 +1,561 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment
+    color="testapp-uno"
+    (ionChange)="segmentChanged($event)"
+    [value]="segmentSeletcted"
+  >
+    <ion-segment-button value="detalle" sele>
+      <ion-label>Detalle</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lotes">
+      <ion-label>Análisis de suelo</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-slides
+    pager="false"
+    #tutorialSlides
+    [options]="slideOpts"
+    (ionSlideDidChange)="slideDidChange(tutorialSlides)"
+    (ionSlidesDidLoad)="slidesDidLoad(tutorialSlides)"
+  >
+    <ion-slide>
+      <form [formGroup]="formulario">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Nombre *</ion-label>
+                <ion-input
+                  formControlName="name"
+                  placeholder="Ej. Lote"
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.name"
+                [mensajes]="mensajesFormulario.name"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-row>
+            <ion-col>
+              <ion-item>    
+                <ion-label position="stacked">Area total en hectáreas  **</ion-label>
+                <ion-input
+                  formControlName="total_area" 
+                  placeholder="Ej. 100"
+                  type="number">
+                </ion-input>
+                
+              </ion-item>
+              <app-mensajes-error 
+                [control]="formulario.controls.total_area" 
+                [mensajes]="mensajesFormulario.total_area"></app-mensajes-error>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-row class="input-currencyMask">
+            <ion-col>
+              <ion-item
+                [ngClass]="{
+                  inputError:
+                    formulario.controls.total_area.invalid &&
+                    formulario.controls.total_area.touched
+                }"
+              >
+                <ion-label position="stacked"
+                  >Area total en hectáreas *</ion-label
+                >
+
+                <input
+                  currencyMask
+                  [options]="{
+                    prefix: ' ',
+                    align: 'left',
+                    thousands: ',',
+                    decimal: '.',
+                    precision: 0,
+                    nullable: true,
+                    allowZero: false
+                  }"
+                  formControlName="total_area"
+                  type="text"
+                />
+              </ion-item>
+              <ion-row>
+                <ion-col class="area-disponible">
+                  Area disponible {{ areaDisponible }} hectáreas
+                </ion-col>
+              </ion-row>
+              <app-mensajes-error
+                [control]="formulario.controls.total_area"
+                [mensajes]="mensajesFormulario.total_area"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Ubicación *</ion-label>
+                <ion-input
+                  disbaled
+                  formControlName="ubication"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.ubication"
+                [mensajes]="mensajesFormulario.ubication"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button size="small" (click)="getGps()" color="testapp-tres">
+                Capturar ubicación GPS
+                <ion-icon slot="end" name="locate-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Altura nivel del mar *</ion-label>
+                <ion-input
+                  formControlName="above_sea_level"
+                  placeholder="Ej. 100"
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.above_sea_level"
+                [mensajes]="mensajesFormulario.above_sea_level"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Descripción *</ion-label>
+                <ion-input
+                  formControlName="description"
+                  placeholder="Ej. descripción"
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.description"
+                [mensajes]="mensajesFormulario.description"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Variedad de café *</ion-label>
+                <ion-select
+                  [selectedText]="detalleLote?.varietie_coffee"
+                  formControlName="varietie_coffee_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.varietiesCoffee"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.varietie_coffee_id"
+                [mensajes]="mensajesFormulario.varietie_coffee_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Renovación *</ion-label>
+                <ion-select
+                  [selectedText]="detalleLote?.renewal"
+                  formControlName="renewal_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.renewals"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.renewal_id"
+                [mensajes]="mensajesFormulario.renewal_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Tipo renovación *</ion-label>
+                <ion-select
+                  [selectedText]="detalleLote?.type_renewal"
+                  formControlName="age"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.typeRenewals"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.age"
+                [mensajes]="mensajesFormulario.age"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Fecha renovación *</ion-label>
+                <ion-datetime
+                  [max]="currentDate"
+                  cancelText="Cancelar"
+                  doneText="Aceptar"
+                  formControlName="date_renewal"
+                  displayFormat="DD/MM/YYYY"
+                >
+                </ion-datetime>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.date_renewal"
+                [mensajes]="mensajesFormulario.date_renewal"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Edad en meses *</ion-label>
+                <ion-input formControlName="age" placeholder="" type="number">
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.age"
+                [mensajes]="mensajesFormulario.age"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-row>
+            <ion-col>
+              <ion-item>    
+                <ion-label position="stacked">Luminosidad *</ion-label>
+                <ion-select        
+                  [selectedText] = "detalleLote?.brightness"        
+                  formControlName="brightness_id"
+                  interface="action-sheet"
+                  okText="Aceptar" 
+                  cancelText="Cancelar" 
+                  placeholder="Seleccionar ...">
+                  <ion-select-option  *ngFor="let item of parametricas.brightnesses"  value="{{item.id}}">{{item.description}}</ion-select-option>                     
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error 
+                [control]="formulario.controls.brightness_id" 
+                [mensajes]="mensajesFormulario.brightness_id"></app-mensajes-error>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-row>
+            <ion-col>
+              <ion-radio-group
+                [value]="valueBrightness"
+                formControlName="brightness_id"
+              >
+                <ion-list-header>
+                  <ion-label>Luminosidad *</ion-label>
+                </ion-list-header>
+
+                <ion-item *ngFor="let item of parametricas.brightnesses">
+                  <ion-label>{{ item.description }}</ion-label>
+                  <ion-radio slot="start" [value]="item.id"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+
+              <app-mensajes-error
+                [control]="formulario.controls.brightness_id"
+                [mensajes]="mensajesFormulario.brightness_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Rango luminosidad *</ion-label>
+                <ion-input
+                  formControlName="range_brightness"
+                  placeholder="Ej. "
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.range_brightness"
+                [mensajes]="mensajesFormulario.range_brightness"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Tipo sombrio *</ion-label>
+                <ion-select
+                  [selectedText]="detalleLote?.type_somber"
+                  formControlName="type_somber_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.typeSombers"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.type_somber_id"
+                [mensajes]="mensajesFormulario.type_somber_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Trazo *</ion-label>
+                <ion-select
+                  [selectedText]="detalleLote?.stroke"
+                  formControlName="stroke_id"
+                  interface="action-sheet"
+                  okText="Aceptar"
+                  cancelText="Cancelar"
+                  placeholder="Seleccionar ..."
+                >
+                  <ion-select-option
+                    *ngFor="let item of parametricas.strokes"
+                    value="{{ item.id }}"
+                    >{{ item.description }}</ion-select-option
+                  >
+                </ion-select>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.stroke_id"
+                [mensajes]="mensajesFormulario.stroke_id"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Distancia sitios *</ion-label>
+                <ion-input
+                  formControlName="distance_sites"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.distance_sites"
+                [mensajes]="mensajesFormulario.distance_sites"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Numero de plantas *</ion-label>
+                <ion-input
+                  formControlName="number_plants"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.number_plants"
+                [mensajes]="mensajesFormulario.number_plants"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Distancia surcos *</ion-label>
+                <ion-input
+                  formControlName="distance_furrow"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.distance_furrow"
+                [mensajes]="mensajesFormulario.distance_furrow"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Tallos por sitios *</ion-label>
+                <ion-input
+                  formControlName="stems_sites"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.stems_sites"
+                [mensajes]="mensajesFormulario.stems_sites"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked"
+                  >Densidad en hectáreas *</ion-label
+                >
+                <ion-input
+                  formControlName="density_hectares"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.density_hectares"
+                [mensajes]="mensajesFormulario.density_hectares"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Sitios por cultivo *</ion-label>
+                <ion-input
+                  formControlName="sites_crop"
+                  placeholder="Ej. "
+                  type="number"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.sites_crop"
+                [mensajes]="mensajesFormulario.sites_crop"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button color="danger" expand="block" (click)="eliminar()">
+                <ion-icon name="trash-outline"></ion-icon>
+                Eliminar</ion-button
+              >
+            </ion-col>
+            <ion-col>
+              <ion-button
+                color="testapp-tres"
+                expand="block"
+                (click)="submit()"
+              >
+                <ion-icon name="save-outline"></ion-icon>
+                Actualizar</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-item
+          class="item-general"
+          *ngFor="let item of detalleLote?.analisis"
+          (click)="detalleAnalisis(item)"
+        >
+          <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          <ion-label
+            >Análisis {{ item.analysis_date | date: "d/MM/yyyy" }}</ion-label
+          >
+          <small>Ver detalle</small>
+        </ion-item>
+
+        <ion-card-content *ngIf="detalleLote?.analisis.length < 1">
+          No tienes Análisis de suelos registrados
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="segmentSeletcted === 'lotes'"
+    (click)="presentModal()"
+  >
+    <ion-fab-button color="testapp-uno">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

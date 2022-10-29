@@ -1,0 +1,221 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment
+    color="testapp-uno"
+    (ionChange)="segmentChanged($event)"
+    [value]="segmentSeletcted"
+  >
+    <ion-segment-button value="detalle" sele>
+      <ion-label>Factura</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lotes">
+      <ion-label>Productos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-slides
+    pager="false"
+    #tutorialSlides
+    [options]="slideOpts"
+    (ionSlideDidChange)="slideDidChange(tutorialSlides)"
+    (ionSlidesDidLoad)="slidesDidLoad(tutorialSlides)"
+  >
+    <ion-slide>
+      <form [formGroup]="formulario">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label>Fecha</ion-label>
+                <ion-datetime
+                  [max]="currentDate"
+                  cancelText="Cancelar"
+                  doneText="Aceptar"
+                  formControlName="date"
+                  placeholder="Seleccionar fecha"
+                  displayFormat="DD/MM/YYYY"
+                >
+                </ion-datetime>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.date"
+                [mensajes]="mensajesFormulario.date"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked"
+                  >¿Incluir información de facturación?</ion-label
+                >
+                <ion-toggle
+                  [value]="incluirInformacion"
+                  (ionChange)="changeIncluir($event)"
+                  color="testapp-uno"
+                ></ion-toggle>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="incluirInformacion">
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Proveedor *</ion-label>
+                <ion-input
+                  formControlName="provider"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.provider"
+                [mensajes]="mensajesFormulario.provider"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="incluirInformacion">
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">NIT</ion-label>
+                <ion-input formControlName="nit" placeholder="" type="text">
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.nit"
+                [mensajes]="mensajesFormulario.nit"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="incluirInformacion">
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Numero de factura</ion-label>
+                <ion-input
+                  formControlName="invoice_number"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.invoice_number"
+                [mensajes]="mensajesFormulario.invoice_number"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <!-- <ion-col>
+              <ion-button 
+                color="testapp-tres"          
+                expand="block"
+               >Cancelar</ion-button>  
+            </ion-col> -->
+            <ion-col>
+              <ion-button (click)="submit()" color="testapp-tres" expand="block"
+                >Guardar</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-list>
+          <ion-item *ngFor="let item of detalleInventario?.inventory_products">
+            <ion-label>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    {{ item.product_type_name }}
+                  </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text>
+                    {{ item.name }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Cantidad: </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="testapp-dos">
+                    {{ item.amount }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Costo unitario </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text>
+                    {{ item.unit_cost | currency }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Costo total </ion-text>
+                  <p></p>
+                </ion-col>
+                <ion-col>
+                  <ion-text>
+                    {{ item.total_cost | currency }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-card-content
+          *ngIf="detalleInventario?.inventory_products.length < 1"
+        >
+          No tiene registros
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="segmentSeletcted === 'lotes'"
+    (click)="presentModal()"
+  >
+    <ion-fab-button color="testapp-uno">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+<!-- 
+
+<ion-content>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="testapp-uno" >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+</ion-content> -->

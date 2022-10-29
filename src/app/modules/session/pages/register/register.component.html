@@ -1,0 +1,183 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tipo de Identificación*</ion-label>
+            <ion-select
+              (ionChange)="changeTipoDocumento($event)"
+              formControlName="tipoDocumento"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Escoger"
+            >
+              <ion-select-option
+                *ngFor="let item of listTiposDocumento"
+                value="{{ item.codigo }}"
+                >{{ item.nombre }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.tipoDocumento"
+            [mensajes]="mensajesFormulario.tipoDocumento"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Numero de documento</ion-label>
+            <ion-input
+              formControlName="numeroDocumento"
+              placeholder="Ej. 12345"
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.numeroDocumento"
+            [mensajes]="mensajesFormulario.numeroDocumento"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked"
+              >{{ campoNombre.textLabel }}
+            </ion-label>
+            <ion-input
+              formControlName="nombres"
+              placeholder="Ej. Camilo Andres"
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.nombres"
+            [mensajes]="mensajesFormulario.nombres"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="formulario.controls.tipoDocumento.value !== '3'">
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Apellidos * </ion-label>
+            <ion-input
+              formControlName="apellidos"
+              placeholder="Ej. Cajamarca Riveros"
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.apellidos"
+            [mensajes]="mensajesFormulario.apellidos"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Celular</ion-label>
+            <ion-input
+              formControlName="celular"
+              placeholder="Ej. 3001112233"
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.celular"
+            [mensajes]="mensajesFormulario.celular"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Correo electronico</ion-label>
+            <ion-input
+              formControlName="email"
+              placeholder="Ej. test@test.com"
+              type="email"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.email"
+            [mensajes]="mensajesFormulario.email"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input formControlName="clave" placeholder="" type="password">
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.clave"
+            [mensajes]="mensajesFormulario.clave"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-padding" size="9">
+          <ion-label position="stacked"
+            >¿Acepta términos y condiciones ?</ion-label
+          >
+
+          <app-mensajes-error
+            [control]="formulario.controls.terminos"
+            [mensajes]="mensajesFormulario.terminos"
+          ></app-mensajes-error>
+        </ion-col>
+        <ion-col size="3">
+          <ion-toggle formControlName="terminos"></ion-toggle>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-padding" size="12">
+          <div class="ion-text-start">
+            <ion-label
+              (click)="presentModal()"
+              color="testapp-tres"
+              position="stacked"
+              >Ver términos y condiciones ?</ion-label
+            >
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

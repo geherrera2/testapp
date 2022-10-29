@@ -1,0 +1,32 @@
+
+<app-header title="Costos"></app-header>
+
+<ion-content > 
+    
+    <form [formGroup]="formulario"  class="ion-no-padding">
+        <ion-grid>
+    
+            <ion-row>
+                <ion-col>
+                <ion-item>    
+                    <ion-label position="stacked">Tipo *</ion-label>
+                    <ion-select                    
+                    formControlName="tipo_costo"              
+                    interface="action-sheet"
+                    okText="Aceptar" 
+                    cancelText="Cancelar" 
+                    placeholder="Seleccionar ...">
+                    <ion-select-option  *ngFor="let item of parametricas.costType"  value="{{item.id}}">{{item.description}}</ion-select-option>                     
+                    </ion-select>
+                </ion-item>
+                <app-mensajes-error 
+                    [control]="formulario.controls.tipo_costo" 
+                    [mensajes]="mensajesFormulario.tipo_costo"></app-mensajes-error>
+                </ion-col>
+            </ion-row>
+            
+            <app-home-actividad *ngIf="formulario.controls.tipo_costo.value === '1'"></app-home-actividad>
+            <app-home-administrativo *ngIf="formulario.controls.tipo_costo.value === '2'"></app-home-administrativo>
+        </ion-grid>
+    </form>
+</ion-content>

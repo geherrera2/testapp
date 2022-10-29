@@ -1,0 +1,40 @@
+<ion-row>
+  <ion-col> </ion-col>
+</ion-row>
+
+<ion-row>
+  <ion-col>
+    <ion-title>Actividades</ion-title>
+  </ion-col>
+</ion-row>
+
+<ion-card>
+  <ion-item
+    class="item-general"
+    [routerLink]="[
+      '/dashboard/tabs/costos/detalle-costo-actividad',
+      { id: item.id, name: item.type_activities_name, type: 'actividad' }
+    ]"
+    *ngFor="let item of listaActividades"
+  >
+    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    <ion-label>{{ item.type_activities_name }}</ion-label>
+    <ion-badge color="testapp-tres">{{ item.total | currency }}</ion-badge>
+    <small>Ver detalle</small>
+  </ion-item>
+
+  <ion-card-content *ngIf="listaActividades.length < 1">
+    No tienes registros
+  </ion-card-content>
+</ion-card>
+
+<ion-row>
+  <ion-col>
+    <ion-button
+      color="testapp-tres"
+      expand="block"
+      [routerLink]="['/dashboard/tabs/costos/crear-actividad']"
+      >Agregar actividad</ion-button
+    >
+  </ion-col>
+</ion-row>

@@ -1,0 +1,14 @@
+ion-img {
+  width: 20px;
+}
+
+ion-tab-button {
+  border-top: 3px solid white;
+  border-bottom: 1px solid white;
+}
+
+.tab-selected {
+  border-top: 3px solid var(--ion-color-testapp-tres);
+  border-bottom: 1px solid var(--ion-color-testapp-tres);
+  background-color: #0080401a;
+}

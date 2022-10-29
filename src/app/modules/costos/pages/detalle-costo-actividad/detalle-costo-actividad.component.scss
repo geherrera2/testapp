@@ -1,0 +1,22 @@
+ion-list{
+    ion-row{
+        height: 20px;
+        ion-col{
+           
+            font-size: 12px;
+            p{            
+              font-size: 1px;
+            }
+            ion-text{
+                font-size: 12px;
+                font-weight: bold;
+            }
+            .ion-text-color{
+                font-weight: normal;
+            }
+        }
+    }
+}
+
+
+

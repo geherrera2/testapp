@@ -1,0 +1,9 @@
+.validation-errors{
+    margin-left: 20px;
+    text-align: left;
+    
+    .error-message{
+        color: var(--ion-color-danger);
+        font-size: 12px;
+    }
+}

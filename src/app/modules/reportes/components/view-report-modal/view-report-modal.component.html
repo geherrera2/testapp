@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Reporte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <canvas
+      #doughnutCanvas
+      style="position: relative; height: 20vh; width: 40vw"
+    ></canvas>
+  </ion-card>
+</ion-content>

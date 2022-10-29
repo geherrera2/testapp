@@ -1,0 +1,57 @@
+<app-header title="Inventario"></app-header>
+
+<ion-content>
+  <ion-searchbar
+    (ionChange)="onSearchChange($event)"
+    [debounce]="250"
+    inputmode="text"
+    animated
+    placeholder="Buscar ..."
+  ></ion-searchbar>
+  <ion-card>
+    <ion-item
+      class="item-general"
+      [routerLink]="[
+        '/dashboard/tabs/inventario/detalle-tipo/',
+        { id: item.id, name: item.name }
+      ]"
+      *ngFor="let item of listaTipos | search: textoBuscar:'name'"
+    >
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      <ion-label>{{ item.name }}</ion-label>
+      <small>Ver detalle</small>
+    </ion-item>
+
+    <ion-card-content *ngIf="listaTipos.length < 1">
+      No tienes registros
+    </ion-card-content>
+  </ion-card>
+
+  <ion-row>
+    <ion-col>
+      <ion-button
+        color="testapp-tres"
+        expand="block"
+        [routerLink]="['/dashboard/tabs/inventario/agregar']"
+        >Agregar inventario</ion-button
+      >
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button
+        color="testapp-tres"
+        expand="block"
+        [routerLink]="['/dashboard/tabs/inventario/productos']"
+        >Crear productos</ion-button
+      >
+    </ion-col>
+  </ion-row>
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="testapp-uno" (click)="presentModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> -->
+</ion-content>

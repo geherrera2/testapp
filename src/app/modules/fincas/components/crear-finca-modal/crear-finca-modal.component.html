@@ -1,0 +1,208 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Crear Finca</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Ficha catastral</ion-label>
+            <ion-input
+              formControlName="cadastral_record"
+              placeholder="Ej. 12345"
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.cadastral_record"
+            [mensajes]="mensajesFormulario.cadastral_record"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Departamento *</ion-label>
+            <ion-select
+              (ionChange)="changeDpto($event.detail.value)"
+              formControlName="department_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.departments"
+                value="{{ item.code }}"
+                >{{ item.name | titlecase }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.department_id"
+            [mensajes]="mensajesFormulario.department_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Municipio *</ion-label>
+            <ion-select
+              (ionChange)="changeMpio($event.detail.value)"
+              formControlName="municipality_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.municipalities"
+                value="{{ item.code }}"
+                >{{ item.name | titlecase }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.municipality_id"
+            [mensajes]="mensajesFormulario.municipality_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Vereda *</ion-label>
+            <ion-select
+              formControlName="village_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.villages"
+                value="{{ item.id }}"
+                >{{ item.name | titlecase }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.village_id"
+            [mensajes]="mensajesFormulario.village_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Nombre finca *</ion-label>
+            <ion-input
+              formControlName="name"
+              placeholder="Ej. Las mecedez"
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.name"
+            [mensajes]="mensajesFormulario.name"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Ubicación</ion-label>
+            <ion-input
+              disabled
+              formControlName="ubication"
+              placeholder=""
+              type="text"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.ubication"
+            [mensajes]="mensajesFormulario.ubication"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button size="small" (click)="getGps()" color="testapp-tres">
+            Capturar ubicación GPS
+            <ion-icon slot="end" name="locate-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Area total en hectáreas *</ion-label>
+            <ion-input
+              formControlName="total_area"
+              placeholder="Ej. 100"
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.total_area"
+            [mensajes]="mensajesFormulario.total_area"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tenencia *</ion-label>
+            <ion-select
+              formControlName="holding_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.holdings"
+                value="{{ item.id }}"
+                >{{ item.description }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.holding_id"
+            [mensajes]="mensajesFormulario.holding_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

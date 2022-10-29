@@ -1,0 +1,7 @@
+<div class="validation-errors">
+  <ng-container *ngFor="let item of mensajes">
+    <div class="error-message" *ngIf="control.hasError(item.error) && (control.dirty || control.touched)">
+      {{ item.message }}
+    </div>
+  </ng-container>
+</div>

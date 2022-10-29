@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Crear producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tipo *</ion-label>
+            <ion-select
+              (ionChange)="changeProductTypes($event.detail.value)"
+              formControlName="product_type_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.productTypes"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.product_type_id"
+            [mensajes]="mensajesFormulario.product_type_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Nombre *</ion-label>
+            <ion-input formControlName="name" placeholder="" type="text">
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.name"
+            [mensajes]="mensajesFormulario.name"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Unidad de medida *</ion-label>
+            <ion-select
+              (ionChange)="changeUnit($event.detail.value)"
+              formControlName="unit_measurement_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.units"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.unit_measurement_id"
+            [mensajes]="mensajesFormulario.unit_measurement_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

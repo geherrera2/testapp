@@ -1,0 +1,176 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear costo administrativo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Descripción*</ion-label>
+            <ion-input formControlName="description" placeholder="" type="text">
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.description"
+            [mensajes]="mensajesFormulario.description"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Categoria *</ion-label>
+            <ion-select
+              formControlName="type_category_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.typeCategory"
+                value="{{ item.id }}"
+                >{{ item.description }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.type_category_id"
+            [mensajes]="mensajesFormulario.type_category_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Finca *</ion-label>
+            <ion-select
+              formControlName="farm_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listadoFincas"
+                value="{{ item.id }}"
+                >{{ item.name }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.farm_id"
+            [mensajes]="mensajesFormulario.farm_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Etapa *</ion-label>
+            <ion-select
+              formControlName="stage_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of parametricas.stages"
+                value="{{ item.id }}"
+                >{{ item.description }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.stage_id"
+            [mensajes]="mensajesFormulario.stage_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Cantidad</ion-label>
+            <ion-input
+              (ionBlur)="blurCantidad()"
+              formControlName="amount"
+              placeholder=""
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.amount"
+            [mensajes]="mensajesFormulario.amount"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="input-currencyMask">
+        <ion-col>
+          <ion-item
+            [ngClass]="{
+              inputError:
+                formulario.controls.unit_cost.invalid &&
+                formulario.controls.unit_cost.touched
+            }"
+          >
+            <ion-label position="stacked">Costo unitario</ion-label>
+            <input
+              (change)="blurCantidad()"
+              currencyMask
+              [options]="{
+                align: 'left',
+                thousands: ',',
+                decimal: '.',
+                precision: 0,
+                nullable: true
+              }"
+              formControlName="unit_cost"
+              type="text"
+            />
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.unit_cost"
+            [mensajes]="mensajesFormulario.unit_cost"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Costo total</ion-label>
+            <ion-text>
+              {{ formulario.controls.total_cost.value | currency }}
+            </ion-text>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.total_cost"
+            [mensajes]="mensajesFormulario.total_cost"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

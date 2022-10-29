@@ -1,0 +1,177 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment
+    color="testapp-uno"
+    (ionChange)="segmentChanged($event)"
+    [value]="segmentSeletcted"
+  >
+    <ion-segment-button value="detalle" sele>
+      <ion-label>Detalle</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lotes">
+      <ion-label>Historial</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-slides
+    pager="false"
+    #tutorialSlides
+    [options]="slideOpts"
+    (ionSlideDidChange)="slideDidChange(tutorialSlides)"
+    (ionSlidesDidLoad)="slidesDidLoad(tutorialSlides)"
+  >
+    <ion-slide>
+      <form [formGroup]="formulario">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Tipo *</ion-label>
+                <ion-input
+                  disabled
+                  formControlName="product_type"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.product_type"
+                [mensajes]="mensajesFormulario.product_type"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Nombre *</ion-label>
+                <ion-input
+                  disabled
+                  formControlName="name"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.name"
+                [mensajes]="mensajesFormulario.name"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Unidad de medida *</ion-label>
+                <ion-input
+                  disabled
+                  formControlName="unit_measurement"
+                  placeholder=""
+                  type="text"
+                >
+                </ion-input>
+              </ion-item>
+              <app-mensajes-error
+                [control]="formulario.controls.unit_measurement"
+                [mensajes]="mensajesFormulario.unit_measurement"
+              ></app-mensajes-error>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button color="testapp-tres" expand="block" (click)="submit()"
+                >GUARDAR</ion-button
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-list>
+          <ion-item *ngFor="let item of listaHistorial">
+            <ion-label>
+              <ion-row>
+                <ion-col>
+                  <ion-text> Fecha: </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="testapp-dos">
+                    {{ item.created_at | date: "d/MMM/yyyy" }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Cantidad: </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="testapp-dos">
+                    {{ item.amount }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Costo unitario </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text>
+                    {{ item.unit_cost | currency }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col>
+                  <ion-text> Costo total </ion-text>
+                  <p></p>
+                </ion-col>
+                <ion-col>
+                  <ion-text>
+                    {{ item.total_cost | currency }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+
+              <ion-row *ngIf="item.inventory_provider">
+                <ion-col>
+                  <ion-text>
+                    Proveedor: {{ item.inventory_provider }}
+                  </ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text> Nit: {{ item.inventory_nit }} </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="item.inventory_invoice_number">
+                <ion-col>
+                  <ion-text>
+                    Factura: {{ item.inventory_invoice_number }}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-card-content *ngIf="listaHistorial.length < 1">
+          No tiene registros
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

@@ -1,0 +1,220 @@
+<ion-header>
+  <ion-toolbar color="testapp-tres">
+    <ion-buttons slot="start">
+      <ion-back-button text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar venta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formulario">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Fecha *</ion-label>
+            <ion-datetime
+              [max]="currentDate"
+              cancelText="Cancelar"
+              doneText="Aceptar"
+              formControlName="date"
+              displayFormat="DD/MM/YYYY"
+            >
+            </ion-datetime>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.date"
+            [mensajes]="mensajesFormulario.date"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Tipo venta café *</ion-label>
+            <ion-select
+              formControlName="sales_type_coffee_id"
+              interface="action-sheet"
+              okText="Aceptar"
+              cancelText="Cancelar"
+              placeholder="Seleccionar ..."
+            >
+              <ion-select-option
+                *ngFor="let item of listaTipoVentaCafe"
+                value="{{ item.id }}"
+                >{{ item.description }}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.sales_type_coffee_id"
+            [mensajes]="mensajesFormulario.sales_type_coffee_id"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Kilos de Café Producidos</ion-label>
+            <ion-input
+              formControlName="amount_loads"
+              placeholder=""
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.amount_loads"
+            [mensajes]="mensajesFormulario.amount_loads"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked"
+              >Kilos de Café despachados o producidos</ion-label
+            >
+            <ion-input
+              formControlName="kilos_coffee_des"
+              placeholder=""
+              type="number"
+            >
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.kilos_coffee_des"
+            [mensajes]="mensajesFormulario.kilos_coffee_des"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="input-currencyMask">
+        <ion-col>
+          <ion-item
+            [ngClass]="{
+              inputError:
+                formulario.controls.sale_value.invalid &&
+                formulario.controls.sale_value.touched
+            }"
+          >
+            <ion-label position="stacked">Valor de la venta</ion-label>
+            <input
+              currencyMask
+              [options]="{
+                align: 'left',
+                thousands: ',',
+                decimal: '.',
+                precision: 0,
+                nullable: true
+              }"
+              formControlName="sale_value"
+              type="text"
+            />
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.sale_value"
+            [mensajes]="mensajesFormulario.sale_value"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="input-currencyMask">
+        <ion-col>
+          <ion-item
+            [ngClass]="{
+              inputError:
+                formulario.controls.sale_value.invalid &&
+                formulario.controls.sale_value.touched
+            }"
+          >
+            <ion-label position="stacked"
+              >Valor Base (Precio pagado al productor)</ion-label
+            >
+            <input
+              currencyMask
+              [options]="{
+                align: 'left',
+                thousands: ',',
+                decimal: '.',
+                precision: 0,
+                nullable: true
+              }"
+              formControlName="sale_value_base"
+              type="text"
+            />
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.sale_value_base"
+            [mensajes]="mensajesFormulario.sale_value_base"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-radio-group value="" formControlName="bonus">
+            <ion-list-header>
+              <ion-label> Tuvo Bonificación ? *</ion-label>
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label>Si</ion-label>
+              <ion-radio slot="start" value="si"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>No</ion-label>
+              <ion-radio slot="start" value="no"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+
+          <app-mensajes-error
+            [control]="formulario.controls.bonus"
+            [mensajes]="mensajesFormulario.bonus"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="formulario.controls.bonus.value === 'si'">
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">¿Cuál?</ion-label>
+            <ion-textarea formControlName="bonus_other"></ion-textarea>
+            <ion-input> </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.bonus_other"
+            [mensajes]="mensajesFormulario.bonus_other"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Comprador</ion-label>
+            <ion-input formControlName="buyer" placeholder="" type="text">
+            </ion-input>
+          </ion-item>
+          <app-mensajes-error
+            [control]="formulario.controls.buyer"
+            [mensajes]="mensajesFormulario.buyer"
+          ></app-mensajes-error>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button color="testapp-tres" expand="block" (click)="submit()"
+            >GUARDAR</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

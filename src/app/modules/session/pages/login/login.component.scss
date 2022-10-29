@@ -1,0 +1,31 @@
+ion-img {
+  width: 50%;
+  margin: auto;
+}
+
+ion-icon {
+  position: relative;
+  top: 15px;
+}
+
+.forgot-password {
+  p {
+    // color: #7d7d7d;
+    // font-weight: bold;
+  }
+}
+
+ion-footer {
+  ion-title {
+    font-size: 14px;
+    span {
+      color: var(--ion-color-testapp-tres);
+    }
+  }
+}
+
+.titulo-projecto {
+  h1 {
+    font-size: 50px;
+  }
+}
