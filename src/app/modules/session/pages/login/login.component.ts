@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['dashboard/home']);
       }, err => {
           this.alertService.activarLoading(false);
+          alert("Correo electrónico o contraseña errada")
           this.alertService.presentAlert('Correo electrónico o contraseña errada', ['Aceptar']);
         }
       );
