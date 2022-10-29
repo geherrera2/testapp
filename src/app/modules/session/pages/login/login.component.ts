@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
         this.sessionService.setSession(resp);
         this.formulario.reset();
         this.router.navigate(['dashboard/home']);
+        document.location = document.location.hash.slice(1);
       }, err => {
           this.alertService.activarLoading(false);
           this.alertService.presentAlert('Correo electrónico o contraseña errada', ['Aceptar']);
