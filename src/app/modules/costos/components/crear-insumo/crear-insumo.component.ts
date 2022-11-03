@@ -30,8 +30,8 @@ export class CrearInsumoComponent implements OnInit {
   ngOnInit() {
     this.parametricas = this.parametricasService.param;
     this.formulario = this.crearFormulario();
-
-    this.parametricasService.getParamBy('product-types').subscribe( (data: any ) => this.parametricas.productTypes = data.data );
+    // TODO, Validar unit test
+    // this.parametricasService.getParamBy('product-types').subscribe( (data: any ) => this.parametricas.productTypes = data.data );
   }
 
   private crearFormulario(): FormGroup {

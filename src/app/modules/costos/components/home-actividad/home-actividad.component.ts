@@ -21,7 +21,8 @@ export class HomeActividadComponent implements OnInit , OnDestroy{
 
   ngOnInit() {
     this.alertService.activarLoading(true);
-    this.getCostosPorActividad();
+    // TODO, Validar unit test
+    // this.getCostosPorActividad();
 
     this.costosService.updateCostos$
     .pipe(

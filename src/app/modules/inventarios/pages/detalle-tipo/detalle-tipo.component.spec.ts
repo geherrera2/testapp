@@ -1,5 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
+import { SearchPipe } from '@shared/pipes/search/search.pipe';
+import { SharedModule } from '@shared/shared.module';
 
 import { DetalleTipoComponent } from './detalle-tipo.component';
 
@@ -10,7 +14,8 @@ describe('DetalleTipoComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DetalleTipoComponent ],
-      imports: [IonicModule.forRoot()]
+      providers:[SearchPipe],
+      imports: [IonicModule.forRoot(),RouterTestingModule,HttpClientTestingModule,SharedModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetalleTipoComponent);

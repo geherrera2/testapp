@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,7 @@ export class SessionService {
   token: string;
 
   constructor(
-    private storage: Storage,
+    // private storage: Storage,
   ) {
   }
 
@@ -19,11 +18,12 @@ export class SessionService {
     this.setToken(data.access_token);
   }
 
-  clearSession = () => this.storage.clear();
+  clearSession = () => null;
 
-  getRegreshToken = () => this.storage.get('refreshToken');
-  setRegreshToken = ( data: string ) => this.storage.set('refreshToken', data);
+  getRegreshToken = () => Promise.resolve("refreshToken");
+  setRegreshToken = ( data: string ) => 'refreshToken';
 
-  getToken = () => this.storage.get('token');
-  setToken = ( data: string ) => this.storage.set('token', data);
+  getToken = () => Promise.resolve("token");
+
+  setToken = ( data: string ) => 'token';
 }
