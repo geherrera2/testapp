@@ -22,4 +22,14 @@ describe('CrearInsumoComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('close()', () => {
+    component.close();
+    expect(component).toBeTruthy();
+  });
+
+  it("Validate form : submit", function(doneFn){
+    component.submit();
+    doneFn();
+  });
 });
