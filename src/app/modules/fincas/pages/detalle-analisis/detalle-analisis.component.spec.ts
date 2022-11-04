@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { DetalleAnalisisComponent } from './detalle-analisis.component';
@@ -10,7 +12,7 @@ describe('DetalleAnalisisComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DetalleAnalisisComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(),RouterTestingModule,HttpClientTestingModule,]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetalleAnalisisComponent);

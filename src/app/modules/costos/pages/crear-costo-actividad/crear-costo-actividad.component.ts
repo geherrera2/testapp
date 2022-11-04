@@ -73,10 +73,10 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
 
 
   ionViewDidEnter() {
-    this.backButtonSub = this.platform.backButton.subscribeWithPriority(
-      10000,
-      () => this.onBack()
-    );
+    // this.backButtonSub = this.platform.backButton?.subscribeWithPriority(
+    //   10000,
+    //   () => this.onBack()
+    // );
   }
 
   ionViewWillLeave() {

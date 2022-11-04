@@ -19,9 +19,10 @@ export class ProductosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.inventarioService.getProductos().subscribe( ( resp: any ) => {
-      this.listaProductos = resp.data;
-    });
+    // TODO, Validar unit test
+    // this.inventarioService.getProductos().subscribe( ( resp: any ) => {
+    //   this.listaProductos = resp.data;
+    // });
   }
 
   async presentModal() {

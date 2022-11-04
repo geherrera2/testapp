@@ -36,10 +36,10 @@ export class ViewReportModalComponent implements OnInit,AfterViewInit {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'pie',
       data: {
-        labels: datos.labels,
+        labels: datos?.labels,
         datasets: [{
           label: '',
-          data: datos.dataCost,
+          data: datos?.dataCost,
           backgroundColor: [
             `rgba(255, 99, 132, ${transparencia})`,
             `rgba(54, 162, 235, ${transparencia})`,

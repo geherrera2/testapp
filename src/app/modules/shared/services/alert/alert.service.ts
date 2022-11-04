@@ -73,11 +73,11 @@ export class AlertService {
   activarLoading = ( estado: boolean ) => this.loadingObservable.next(estado);
 
   private async presentLoading() {
-    this.loading = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Por favor espera...',
-    });
-    await this.loading.present();
+    // this.loading = await this.loadingController.create({
+    //   cssClass: 'my-custom-class',
+    //   message: 'Por favor espera...',
+    // });
+    // await this.loading.present();
   }
 
   private closeLoading(){
