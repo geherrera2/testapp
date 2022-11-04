@@ -11,7 +11,7 @@ import { CrearLotesModalComponent } from '../../components/crear-lotes-modal/cre
 import { ParametricasModel } from '@shared/models/parametricas.model';
 import { interval, Subject } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
@@ -90,9 +90,9 @@ export class DetalleFincaComponent implements OnInit, OnDestroy{
     this.destroyIonSlides$.unsubscribe();
   }
 
-  private cargarDetalleFinca() {
+  cargarDetalleFinca() {
     this.alertService.activarLoading(true);
-    this.fincasService.getDetalleFinca(this.id).subscribe(async (resp: FincasModel) => {
+    this.fincasService.getDetalleFinca(this.id).subscribe((resp: FincasModel) => {
       this.alertService.activarLoading(false);
       this.detalleFinca = resp;
       this.setFormulario(this.detalleFinca);
@@ -100,7 +100,7 @@ export class DetalleFincaComponent implements OnInit, OnDestroy{
     });
   }
 
-  private getLotes() {
+  getLotes() {
     this.lotesService.getLotes(this.detalleFinca.id).subscribe((lotes: any) => {
       this.detalleFinca.lotes = lotes;
     }, err => {
