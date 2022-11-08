@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AnalisisService } from '../../services/analisis/analisis.service';
 import { AlertService } from '../../../shared/services/alert/alert.service';
 import { ActivatedRoute } from '@angular/router';

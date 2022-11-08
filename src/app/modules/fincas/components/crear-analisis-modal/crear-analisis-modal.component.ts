@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AnalisisService } from '../../services/analisis/analisis.service';
 import { AlertService } from '../../../shared/services/alert/alert.service';
 import * as moment from 'moment';
