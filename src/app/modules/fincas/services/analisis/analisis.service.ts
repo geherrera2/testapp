@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { HttpService } from '../../../shared/services/http/http.service';
 import { DetalleAnalisisModel, ListaAnalisisModel } from '../../models/lotes.model';
 import { Subject } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -57,4 +58,20 @@ export class AnalisisService {
   }
 
   eliminarAnalisis = (id) => this.httpService.delete(`api/analysis/${id}`);
+
+  createFormAnalisis(idLote = ''){
+    return new FormGroup({
+      analysis_date: new FormControl( '', [Validators.required] ),
+      ph: new FormControl( '', [] ),
+      organic_matter: new FormControl( '', [] ),
+      phosphates: new FormControl( '', [] ),
+      calcium: new FormControl( '', [] ),
+      magnesium: new FormControl( '', [] ),
+      potassium: new FormControl( '', [] ),
+      aluminum: new FormControl( '', [] ),
+      sulphur: new FormControl( '', [] ),
+      texture: new FormControl( '', [] ),
+      lot_id: new FormControl( idLote, [] ),
+    });
+  }
 }

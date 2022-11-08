@@ -35,19 +35,7 @@ export class CrearAnalisisModalComponent implements OnInit {
   }
 
   private crearFormulario(): FormGroup {
-    const formulario = new FormGroup({
-      analysis_date: new FormControl( '', [Validators.required] ),
-      ph: new FormControl( '', [] ),
-      organic_matter: new FormControl( '', [] ),
-      phosphates: new FormControl( '', [] ),
-      calcium: new FormControl( '', [] ),
-      magnesium: new FormControl( '', [] ),
-      potassium: new FormControl( '', [] ),
-      aluminum: new FormControl( '', [] ),
-      sulphur: new FormControl( '', [] ),
-      texture: new FormControl( '', [] ),
-      lot_id: new FormControl( this.idLote, [] ),
-    });
+    const formulario = this.analisisService.createFormAnalisis(this.idLote);
     this.mensajesFormulario = this.analisisService.mensajesAnalisis();
     return formulario;
   }
