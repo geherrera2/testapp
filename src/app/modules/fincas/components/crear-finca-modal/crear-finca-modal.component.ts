@@ -43,23 +43,13 @@ export class CrearFincaModalComponent implements OnInit {
   }
 
   private crearFormulario(): FormGroup {
-    const formulario = new FormGroup({
-      cadastral_record: new FormControl( '', [] ),
-      department_id: new FormControl( '', [  Validators.required ] ),
-      municipality_id: new FormControl( '', [  Validators.required ] ),
-      village_id: new FormControl( '', [  ] ),
-      name: new FormControl( '', [  Validators.required ] ),
-      ubication: new FormControl( '', [  Validators.required ] ),
-      total_area: new FormControl( '', [  Validators.required ] ),
-      holding_id: new FormControl( '', [  Validators.required ] ),
-    });
+    const formulario = this.fincasService.crearFormFinca();
 
     this.mensajesFormulario = this.fincasService.mensajesFinca();
     return formulario;
   }
 
   submit(){
-    console.log(this.formulario.getRawValue());
     
     if (this.formulario.invalid ) {
       this.formulario.markAllAsTouched();
@@ -121,51 +111,7 @@ export class CrearFincaModalComponent implements OnInit {
   }
 
   getGps(){
-    this.androidPermissions.checkPermission(
-          this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-      .then( data => {
-        if ( data.hasPermission ){
-          this.getUbicacion();
-        } else {
-          this.androidPermissions.requestPermissions(
-            [
-              this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION,
-              this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION
-            ]
-            ).then( respGps => {
-              if ( respGps.hasPermission ){
-                this.getUbicacion();
-              } else {
-                this.errorGps();
-              }
-            });
-        }
-      }, err => {
-        this.errorGps(err);
-      }
-    );
-  }
-
-  private errorGps(error?: any) {
-    this.alertService.activarLoading(false);
-    let msg = '';
-    if (error?.code === 2) {
-      msg = 'la aplicación no tiene suficientes permisos de geolocalización';
-    } else {
-      msg = 'No fue posible capturar la geolocalización';
-    }
-    this.formulario.controls.ubication.setValue(`--`);
-    this.alertService.presentAlert(msg, ['Aceptar']);
-  }
-
-  private getUbicacion() {
-    this.alertService.activarLoading(true);
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.alertService.activarLoading(false);
-      this.formulario.controls.ubication.setValue(`${resp.coords.latitude}, ${resp.coords.longitude}`);
-    }).catch((error) => {
-      this.errorGps(error);
-    });
+    this.parametricasService.getGps(this.formulario)
   }
 
 }

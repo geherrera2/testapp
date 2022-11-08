@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { LotesService } from '../../services/lotes/lotes.service';
 import { IonSlides, ModalController, NavController } from '@ionic/angular';
 import { CrearAnalisisModalComponent } from '../../components/crear-analisis-modal/crear-analisis-modal.component';
@@ -111,30 +111,7 @@ export class DetalleLoteComponent implements OnInit, OnDestroy {
   }
 
   private crearFormulario(): FormGroup {
-    const formulario = new FormGroup({
-      id: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
-      total_area: new FormControl('', [Validators.required, this.lotesService.validarAreaLote(this.areaDisponible)]),
-      ubication: new FormControl('', [Validators.required]),
-      above_sea_level: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      varietie_coffee_id: new FormControl('', [Validators.required]),
-      renewal_id: new FormControl('', [Validators.required]),
-      type_renewal_id: new FormControl('', [Validators.required]),
-      date_renewal: new FormControl('', [Validators.required]),
-      age: new FormControl('', [Validators.required]),
-      brightness_id: new FormControl('', [Validators.required]),
-      range_brightness: new FormControl('', [Validators.required]),
-      type_somber_id: new FormControl('', [Validators.required]),
-      stroke_id: new FormControl('', [Validators.required]),
-      distance_sites: new FormControl('', [Validators.required]),
-      distance_furrow: new FormControl('', [Validators.required]),
-      stems_sites: new FormControl('', [Validators.required]),
-      density_hectares: new FormControl('', [Validators.required]),
-      sites_crop: new FormControl('', [Validators.required]),
-      farm_id: new FormControl('', [Validators.required]),
-      number_plants: new FormControl('', [Validators.required]),
-    });
+    const formulario = this.lotesService.createrFormLot(this.areaDisponible);
 
     this.mensajesFormulario = this.lotesService.mensajesLote();
     return formulario;

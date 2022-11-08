@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { LoteModel } from '../../models/lotes.model';
 import { ListaLotesModel } from '../../models/fincas.model';
 import { Subject } from 'rxjs';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class LotesService {
   public updateLotes$ = this.updateLotes.asObservable();
 
   constructor(
-    private httpService: HttpService
+    private httpService: HttpService, private lotesService: LotesService
   ) { }
 
   eventoActualizarLote( data ){
@@ -75,5 +75,32 @@ export class LotesService {
       const temp = tempValue <= valor ? false : true ;
       return temp ? {areaDisponible: true } : null;
     };
+  }
+
+  createrFormLot(areaDisponible:number = 0){
+    return new FormGroup({
+      id: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      total_area: new FormControl('', [Validators.required, this.lotesService.validarAreaLote(areaDisponible)]),
+      ubication: new FormControl('', [Validators.required]),
+      above_sea_level: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      varietie_coffee_id: new FormControl('', [Validators.required]),
+      renewal_id: new FormControl('', [Validators.required]),
+      type_renewal_id: new FormControl('', [Validators.required]),
+      date_renewal: new FormControl('', [Validators.required]),
+      age: new FormControl('', [Validators.required]),
+      brightness_id: new FormControl('', [Validators.required]),
+      range_brightness: new FormControl('', [Validators.required]),
+      type_somber_id: new FormControl('', [Validators.required]),
+      stroke_id: new FormControl('', [Validators.required]),
+      distance_sites: new FormControl('', [Validators.required]),
+      distance_furrow: new FormControl('', [Validators.required]),
+      stems_sites: new FormControl('', [Validators.required]),
+      density_hectares: new FormControl('', [Validators.required]),
+      sites_crop: new FormControl('', [Validators.required]),
+      farm_id: new FormControl('', [Validators.required]),
+      number_plants: new FormControl('', [Validators.required]),
+    });
   }
 }
