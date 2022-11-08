@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   version: '1.0.4',
-  urlApi : 'http://ec2-52-90-161-168.compute-1.amazonaws.com',  
+  urlApi : 'https://ec2-52-90-161-168.compute-1.amazonaws.com',  
   client: {
     id: '2',
     secret: 'fbgv96iLl5mlySq4exEm2dLMWrCcQNr5qDJZzKtG'    
