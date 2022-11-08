@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../http/http.service';
 import { map } from 'rxjs/operators';
 import { ParametricasModel } from '../../models/parametricas.model';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { AlertService } from '../alert/alert.service';
+import { FormGroup } from '@angular/forms';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +14,7 @@ export class ParametricasService {
   param: ParametricasModel;
 
   constructor(
-    private httpService: HttpService
+    private httpService: HttpService,private androidPermissions: AndroidPermissions,private alertService: AlertService,private geolocation: Geolocation,
   ) {
     this.param = new ParametricasModel();
    }
@@ -54,6 +58,54 @@ export class ParametricasService {
     this.getParamBy('stage').subscribe( (data: any ) => this.param.stages = data.data );
     this.getParamBy('type-work').subscribe( (data: any ) => this.param.typeWork = data.data );
     this.getParamBy('type-category').subscribe( (data: any ) => this.param.typeCategory = data.data );
+  }
+
+  getGps(formulario:FormGroup){
+    this.androidPermissions.checkPermission(
+          this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      .then( data => {
+        if ( data.hasPermission ){
+          this.getUbicacion(formulario);
+        } else {
+          this.androidPermissions.requestPermissions(
+            [
+              this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION,
+              this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION
+            ]
+            ).then( respGps => {
+              if ( respGps.hasPermission ){
+                this.getUbicacion(formulario);
+              } else {
+                this.errorGps();
+              }
+            });
+        }
+      }, err => {
+        this.errorGps(err, formulario);
+      }
+    );
+  }
+
+  private getUbicacion(formulario:FormGroup) {
+    this.alertService.activarLoading(true);
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.alertService.activarLoading(false);
+      formulario.controls.ubication.setValue(`${resp.coords.latitude}, ${resp.coords.longitude}`);
+    }).catch((error) => {
+      this.errorGps(error, formulario);
+    });
+  }
+
+  private errorGps(error?: any, form?:any) {
+    this.alertService.activarLoading(false);
+    let msg = '';
+    if (error?.code === 2) {
+      msg = 'la aplicación no tiene suficientes permisos de geolocalización';
+    } else {
+      msg = 'No fue posible capturar la geolocalización';
+    }
+    form.controls.ubication.setValue(`--`);
+    this.alertService.presentAlert(msg, ['Aceptar']);
   }
 
 }

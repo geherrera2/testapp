@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { FincasModel, ListaLotesModel } from '../../models/fincas.model';
 import { LoteModel } from '../../models/lotes.model';
 import { Subject } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,18 @@ export class FincasService {
   }
 
   eliminarFinca = (id) => this.httpService.delete(`api/farm/${id}`);
+
+  crearFormFinca(){
+    return new FormGroup({
+      cadastral_record: new FormControl( '', [] ),
+      department_id: new FormControl( '', [  Validators.required ] ),
+      municipality_id: new FormControl( '', [  Validators.required ] ),
+      village_id: new FormControl( '', [  ] ),
+      name: new FormControl( '', [  Validators.required ] ),
+      ubication: new FormControl( '', [  Validators.required ] ),
+      total_area: new FormControl( '', [  Validators.required ] ),
+      holding_id: new FormControl( '', [  Validators.required ] ),
+    });
+  }
 
 }
