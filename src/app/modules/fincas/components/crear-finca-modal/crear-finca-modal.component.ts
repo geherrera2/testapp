@@ -10,6 +10,7 @@ import { AlertService } from '../../../shared/services/alert/alert.service';
 import { ParametricasModel } from '../../../shared/models/parametricas.model';
 import { Router } from '@angular/router';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { GpsService } from '@shared/services/gps/gps.service';
 
 @Component({
   selector: 'app-crear-finca-modal',
@@ -29,8 +30,7 @@ export class CrearFincaModalComponent implements OnInit {
     public parametricasService: ParametricasService,
     private fincasService: FincasService,
     private alertService: AlertService,
-    private geolocation: Geolocation,
-    private androidPermissions: AndroidPermissions
+    private gpsService:GpsService
   ) { }
 
   ngOnInit() {
@@ -111,7 +111,7 @@ export class CrearFincaModalComponent implements OnInit {
   }
 
   getGps(){
-    this.parametricasService.getGps(this.formulario)
+    this.gpsService.getGps(this.formulario)
   }
 
 }
