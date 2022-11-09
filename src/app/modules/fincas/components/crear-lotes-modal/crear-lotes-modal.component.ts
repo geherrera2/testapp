@@ -6,16 +6,14 @@ import { LotesService } from '../../services/lotes/lotes.service';
 import { ParametricasService } from '../../../shared/services/parametricas/parametricas.service';
 import { ParametricasModel } from '../../../shared/models/parametricas.model';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { GpsService } from '@shared/services/gps/gps.service';
 
 @Component({
-  selector: 'app-crear-lotes-modal',
-  templateUrl: './crear-lotes-modal.component.html',
-  styleUrls: ['./crear-lotes-modal.component.scss'],
+  selector: "app-crear-lotes-modal",
+  templateUrl: "./crear-lotes-modal.component.html",
+  styleUrls: ["./crear-lotes-modal.component.scss"],
 })
 export class CrearLotesModalComponent implements OnInit {
   @Input() idFinca: string;
@@ -38,7 +36,7 @@ export class CrearLotesModalComponent implements OnInit {
   ngOnInit() {
     this.parametricas = this.parametricasService.param;
     this.formulario = this.crearFormulario();
-    this.currentDate = moment(new Date()).format('YYYY-MM-DD');
+    this.currentDate = moment(new Date()).format("YYYY-MM-DD");
   }
 
   private crearFormulario(): FormGroup {
@@ -48,13 +46,13 @@ export class CrearLotesModalComponent implements OnInit {
     return formulario;
   }
 
-  submit(){
-    if (this.formulario.invalid ) {
+  submit() {
+    if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
     } else {
       this.alertService.activarLoading(true);
-      this.lotesService.crearLote(this.formulario.getRawValue())
-        .subscribe( (data: any) => {
+      this.lotesService.crearLote(this.formulario.getRawValue()).subscribe(
+        (data: any) => {
           this.alertService.activarLoading(false);
           this.alertService.presentAlert('El lote se creó correctamente. ¿desea crear un análisis ?', [
             // {
