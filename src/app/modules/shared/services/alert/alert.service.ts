@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { interval, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import {  takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

@@ -77,7 +77,7 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
   }
 
   ionViewWillLeave() {
-    this.backButtonSub.unsubscribe();
+    this.backButtonSub?.unsubscribe();
   }
 
   ngOnInit() {
@@ -103,7 +103,6 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
   cargaParametricos() {
     this.fincasService.getFincas().subscribe( resp => {
       this.listadoFincas = resp;
-      // this.parametricasService.getParametricasFincas();
     });
   }
 
@@ -165,12 +164,7 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
   }
 
   segmentChanged(ev: any) {
-    this.segmentSeletcted = ev.detail.value;
-    if ( this.segmentSeletcted  === 'detalle' ) {
-      this.ionSlides.slidePrev(100);
-    } else {
-      this.ionSlides.slideNext(100);
-    }
+    this.segmentSeletcted = 'detalle';
   }
 
   slideDidChange( slides: IonSlides){

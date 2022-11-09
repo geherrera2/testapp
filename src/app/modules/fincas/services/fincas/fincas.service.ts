@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Mensajes } from '@shared/enums/mensajes.enum';
 import { HttpService } from '@shared/services/http/http.service';
 import { map } from 'rxjs/operators';
-import { FincasModel, ListaLotesModel } from '../../models/fincas.model';
-import { LoteModel } from '../../models/lotes.model';
+import { FincasModel } from '../../models/fincas.model';
 import { Subject } from 'rxjs';
 
 @Injectable({
