@@ -6,10 +6,10 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ParametricasService } from "@shared/services/parametricas/parametricas.service";
 import { FincasModel } from "../../models/fincas.model";
 import { AlertService } from "../../../shared/services/alert/alert.service";
-import { IonSlides, ModalController, NavController } from "@ionic/angular";
+import { AlertController, IonSlides, ModalController, NavController } from "@ionic/angular";
 import { CrearLotesModalComponent } from "../../components/crear-lotes-modal/crear-lotes-modal.component";
 import { ParametricasModel } from "@shared/models/parametricas.model";
-import { interval, Subject } from "rxjs";
+import {  Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { GpsService } from "@shared/services/gps/gps.service";
 
@@ -52,6 +52,7 @@ export class DetalleFincaComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     public modalController: ModalController,
     private navController: NavController,
+    public alertController: AlertController,
     public gpsService: GpsService
   ) {
     this.route.params.subscribe((params) => {
@@ -63,15 +64,8 @@ export class DetalleFincaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.redirect && this.redirect === "crear") {
-      interval(200)
-        .pipe(takeUntil(this.destroyIonSlides$))
-        .subscribe((data) => {
-          if (this.ionSlides) {
-            this.segmentSeletcted = "lotes";
-            this.ionSlides.slideNext(100);
-            this.destroyIonSlides$.next(true);
-          }
-        });
+      this.segmentSeletcted = "lotes";
+      this.destroyIonSlides$.next(true);
     }
 
     this.formulario = this.crearFormulario();
@@ -242,57 +236,6 @@ export class DetalleFincaComponent implements OnInit, OnDestroy {
         areaDisponible: this.detalleFinca?.available_area,
       },
     ]);
-  }
-
-  async presentModal() {
-    this.modal = await this.modalController.create({
-      component: CrearLotesModalComponent,
-      cssClass: "my-custom-class",
-      componentProps: {
-        idFinca: this.id,
-        areaDisponible: this.detalleFinca.available_area,
-      },
-    });
-    await this.modal.present();
-
-    const { data } = await this.modal.onWillDismiss();
-    if (data.datos) {
-      this.cargarDetalleFinca();
-      this.detalleFinca.lotes.push({
-        id: data.datos.id,
-        name: data.datos.name,
-      });
-    }
-  }
-
-  eliminar() {
-    this.alertService.presentAlert(
-      `¿Está seguro de eliminar la finca?`,
-      [
-        {
-          text: "Cancelar",
-          handler: () => {},
-        },
-        {
-          text: "Aceptar",
-          handler: () => {
-            this.alertService.activarLoading(true);
-            this.fincasService.eliminarFinca(this.id).subscribe(
-              (data) => {
-                this.alertService.activarLoading(false);
-                this.fincasService.eventoActualizarFinca(null);
-                this.navController.back();
-                this.alertService.presentToast("La finca fue eliminada.");
-              },
-              (err) => {
-                this.alertService.activarLoading(false);
-              }
-            );
-          },
-        },
-      ],
-      "Atención"
-    );
   }
 
   getGps = () => this.gpsService.getGps(this.formulario);
