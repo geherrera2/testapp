@@ -4,7 +4,6 @@ import { NavController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SessionService } from './modules/session/services/session/session.service';
-import { ParametricasService } from './modules/shared/services/parametricas/parametricas.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -31,12 +30,7 @@ export class AppComponent {
         if (data) {
           this.sessionService.token = data;
           this.router.navigate(['dashboard/home']);
-          // this.navCtrl.navigateRoot('dashboard/home');
-          // this.navCtrl.navigateRoot('dashboard/tabs/costos');
-          // this.navCtrl.navigateRoot(['dashboard/tabs/costos/detalle-costo-actividad', { id: 1, name: 'Jornales' }]);
-          // this.navCtrl.navigateRoot(['dashboard/tabs/fincas/lote/detalle/2', { id: 2, name: 'prueba' }]);
         } else {
-          // this.navCtrl.navigateRoot('auth/login');
           this.router.navigate(['auth/login']);
         }
       });
