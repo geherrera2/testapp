@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup,  Validators } from '@angular/forms';
 import { LotesService } from '../../services/lotes/lotes.service';
 import { IonSlides, ModalController, NavController } from '@ionic/angular';
 import { CrearAnalisisModalComponent } from '../../components/crear-analisis-modal/crear-analisis-modal.component';
@@ -10,11 +10,10 @@ import { AlertService } from '../../../shared/services/alert/alert.service';
 import { AnalisisService } from '../../services/analisis/analisis.service';
 import { LoteModel } from '../../models/lotes.model';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, interval } from 'rxjs';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import * as moment from 'moment';
+import { GpsService } from '@shared/services/gps/gps.service';
 
 @Component({
   selector: 'app-detalle-lote',
@@ -54,9 +53,8 @@ export class DetalleLoteComponent implements OnInit, OnDestroy {
     private parametricasService: ParametricasService,
     private alertService: AlertService,
     public modalController: ModalController,
-    private geolocation: Geolocation,
     private navController: NavController,
-    private androidPermissions: AndroidPermissions
+    public gpsService:GpsService
   ) {
       this.route.params.subscribe(params => {
         this.title  = params.name;
@@ -111,30 +109,7 @@ export class DetalleLoteComponent implements OnInit, OnDestroy {
   }
 
   private crearFormulario(): FormGroup {
-    const formulario = new FormGroup({
-      id: new FormControl('', [Validators.required]),
-      name: new FormControl('', [Validators.required]),
-      total_area: new FormControl('', [Validators.required, this.lotesService.validarAreaLote(this.areaDisponible)]),
-      ubication: new FormControl('', [Validators.required]),
-      above_sea_level: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
-      varietie_coffee_id: new FormControl('', [Validators.required]),
-      renewal_id: new FormControl('', [Validators.required]),
-      type_renewal_id: new FormControl('', [Validators.required]),
-      date_renewal: new FormControl('', [Validators.required]),
-      age: new FormControl('', [Validators.required]),
-      brightness_id: new FormControl('', [Validators.required]),
-      range_brightness: new FormControl('', [Validators.required]),
-      type_somber_id: new FormControl('', [Validators.required]),
-      stroke_id: new FormControl('', [Validators.required]),
-      distance_sites: new FormControl('', [Validators.required]),
-      distance_furrow: new FormControl('', [Validators.required]),
-      stems_sites: new FormControl('', [Validators.required]),
-      density_hectares: new FormControl('', [Validators.required]),
-      sites_crop: new FormControl('', [Validators.required]),
-      farm_id: new FormControl('', [Validators.required]),
-      number_plants: new FormControl('', [Validators.required]),
-    });
+    const formulario = this.lotesService.createrFormLot(this.areaDisponible);
 
     this.mensajesFormulario = this.lotesService.mensajesLote();
     return formulario;
@@ -235,54 +210,7 @@ export class DetalleLoteComponent implements OnInit, OnDestroy {
     }
   }
 
-  getGps(){
-    this.androidPermissions.checkPermission(
-          this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-      .then( data => {
-        if ( data.hasPermission ){
-          this.getUbicacion();
-        } else {
-          this.androidPermissions.requestPermissions(
-            [
-              this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION,
-              this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION
-            ]
-            ).then( respGps => {
-              if ( respGps.hasPermission ){
-                this.getUbicacion();
-              } else {
-                this.errorGps();
-              }
-            });
-        }
-      }, err => {
-        this.errorGps(err);
-      }
-    );
-  }
-
-  private errorGps(error?: any) {
-    this.alertService.activarLoading(false);
-    let msg = '';
-    if (error?.code === 2) {
-      msg = 'la aplicación no tiene suficientes permisos de geolocalización';
-    } else {
-      msg = 'No fue posible capturar la geolocalización';
-    }
-    this.formulario.controls.ubication.setValue(`--`);
-    this.alertService.presentAlert(msg, ['Aceptar']);
-  }
-
-  private getUbicacion() {
-    this.alertService.activarLoading(true);
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.alertService.activarLoading(false);
-      this.formulario.controls.ubication.setValue(`${resp.coords.latitude}, ${resp.coords.longitude}`);
-    }).catch((error) => {
-      this.errorGps(error);
-    });
-  }
-
+  
   eliminar(){
     this.alertService.presentAlert('¿Está seguro de eliminar el lote?', [
       {
