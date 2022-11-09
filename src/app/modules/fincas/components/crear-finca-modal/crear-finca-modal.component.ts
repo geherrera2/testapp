@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 import { ParametricasService } from '@shared/services/parametricas/parametricas.service';
 import { FincasService } from '../../services/fincas/fincas.service';
 import { AlertService } from '../../../shared/services/alert/alert.service';
 import { ParametricasModel } from '../../../shared/models/parametricas.model';
 import { Router } from '@angular/router';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { GpsService } from '@shared/services/gps/gps.service';
 
 @Component({
   selector: 'app-crear-finca-modal',
@@ -29,8 +27,7 @@ export class CrearFincaModalComponent implements OnInit {
     public parametricasService: ParametricasService,
     private fincasService: FincasService,
     private alertService: AlertService,
-    private geolocation: Geolocation,
-    private androidPermissions: AndroidPermissions
+    public gpsService:GpsService
   ) { }
 
   ngOnInit() {
@@ -120,52 +117,5 @@ export class CrearFincaModalComponent implements OnInit {
     }
   }
 
-  getGps(){
-    this.androidPermissions.checkPermission(
-          this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-      .then( data => {
-        if ( data.hasPermission ){
-          this.getUbicacion();
-        } else {
-          this.androidPermissions.requestPermissions(
-            [
-              this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION,
-              this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION
-            ]
-            ).then( respGps => {
-              if ( respGps.hasPermission ){
-                this.getUbicacion();
-              } else {
-                this.errorGps();
-              }
-            });
-        }
-      }, err => {
-        this.errorGps(err);
-      }
-    );
-  }
-
-  private errorGps(error?: any) {
-    this.alertService.activarLoading(false);
-    let msg = '';
-    if (error?.code === 2) {
-      msg = 'la aplicación no tiene suficientes permisos de geolocalización';
-    } else {
-      msg = 'No fue posible capturar la geolocalización';
-    }
-    this.formulario.controls.ubication.setValue(`--`);
-    this.alertService.presentAlert(msg, ['Aceptar']);
-  }
-
-  private getUbicacion() {
-    this.alertService.activarLoading(true);
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.alertService.activarLoading(false);
-      this.formulario.controls.ubication.setValue(`${resp.coords.latitude}, ${resp.coords.longitude}`);
-    }).catch((error) => {
-      this.errorGps(error);
-    });
-  }
-
+ 
 }

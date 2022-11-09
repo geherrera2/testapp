@@ -13,6 +13,7 @@ import { CrearLotesModalComponent } from './components/crear-lotes-modal/crear-l
 import { CrearAnalisisModalComponent } from './components/crear-analisis-modal/crear-analisis-modal.component';
 import { DetalleAnalisisComponent } from './pages/detalle-analisis/detalle-analisis.component';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { FincaFormularioComponent } from './components/finca-formulario/finca-formulario.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,8 @@ import { NgxCurrencyModule } from 'ngx-currency';
         DetalleAnalisisComponent,
         CrearFincaModalComponent,
         CrearLotesModalComponent,
-        CrearAnalisisModalComponent
+        CrearAnalisisModalComponent,
+        FincaFormularioComponent
     ]
 
 })
