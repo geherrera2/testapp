@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { async, ComponentFixture, discardPeriodicTasks, fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AndroidPermissions } from "@ionic-native/android-permissions/ngx";
-import { IonicModule } from "@ionic/angular";
+import { AlertController, IonicModule, IonSlide, IonSlides } from "@ionic/angular";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { DetalleFincaComponent } from "./detalle-finca.component";
@@ -10,19 +10,25 @@ import { FincasService } from "../../services/fincas/fincas.service";
 import { of, throwError } from "rxjs";
 import { FincasModel } from "../../models/fincas.model";
 import { LotesService } from "../../services/lotes/lotes.service";
+import { ParametricasService } from "@shared/services/parametricas/parametricas.service";
+import { AlertService } from "@shared/services/alert/alert.service";
 
 describe("DetalleFincaComponent", () => {
   let component: DetalleFincaComponent;
   let fixture: ComponentFixture<DetalleFincaComponent>;
   let fincasService: FincasService
   let lotesService: LotesService
+  let parametricasService: ParametricasService;
+  let alertService: AlertService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DetalleFincaComponent],
       providers: [
         { provide: Geolocation, useValue: {} },
-        { provide: AndroidPermissions, useValue: {} }
+        { provide: AndroidPermissions, useValue: {} },
+        { provide: IonSlides, useValue: {} }
+        // {provide: AlertController, useValue: new MockAlertController()},
        ],
       imports: [
         IonicModule.forRoot(),
@@ -33,6 +39,8 @@ describe("DetalleFincaComponent", () => {
 
     fincasService = TestBed.inject(FincasService);
     lotesService = TestBed.inject(LotesService);
+    alertService = TestBed.inject(AlertService);
+    parametricasService = TestBed.inject(ParametricasService);
     fixture = TestBed.createComponent(DetalleFincaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -49,11 +57,10 @@ describe("DetalleFincaComponent", () => {
 
   it("Validate redirect", fakeAsync(() => {
     component.redirect = 'crear';
-    expect(component.segmentSeletcted).toEqual('detalle');
     fixture.detectChanges();
     component.ngOnInit();
     tick(300);
-    // component.ionSlides = k;
+    fixture.detectChanges();
     expect(component.segmentSeletcted).toEqual('detalle');
     discardPeriodicTasks();
   }));
@@ -73,19 +80,107 @@ describe("DetalleFincaComponent", () => {
     doneFn();
   });
 
-  it("getLotes: error", function(doneFn){
-    const mockResponse:FincasModel = new FincasModel({id:1});
-    component.detalleFinca = mockResponse;
-    spyOn(lotesService, 'getLotes').and.returnValue(throwError({ error: true }));
-    component.getLotes();
-    doneFn();
-  });
-
-
-  it("Validate form : submit", function(doneFn){
+  it("Validate form : invalid form", function(doneFn){
     component.submit();
     doneFn();
   });
 
+  it("Validate form : valida form", function(doneFn){
+    const mockForm = {
+      id: 'test',
+      lotes: 'test',
+      cadastral_record: 'test',
+      department_id: 'test',
+      municipality_id: 'test',
+      village_id: 'test',
+      name: 'test',
+      ubication: 'test',
+      total_area: 'test',
+      holding_id: 'test',
+    }
+
+    const mockResponse = {
+      data: {
+        id: 'test',
+        cadastral_record: 'test',
+        department_id: 'test',
+        municipality_id: 'test',
+        village_id: 'test',
+        name: 'test',
+        ubication: 'test',
+        total_area: 'test',
+        holding_id: 'test',
+        department: 'test',
+        municipality: 'test',
+        village: 'test',
+        holding: 'test',
+        lotes: [],
+        available_area: 'test',
+      }
+    }
+    component.formulario.setValue(mockForm);
+    spyOn(fincasService, 'actualizarFinca').and.returnValue(of(mockResponse));
+    spyOn(fincasService, 'eventoActualizarFinca');
+    spyOn(alertService, 'activarLoading');
+    component.submit();
+    
+    expect(component.formulario.controls['lotes'].value).toEqual(mockForm.lotes);
+    doneFn();
+  });
+
+  it("Validate form : valida form error response", function(doneFn){
+    const mockForm = {
+      id: 'test',
+      lotes: 'test',
+      cadastral_record: 'test',
+      department_id: 'test',
+      municipality_id: 'test',
+      village_id: 'test',
+      name: 'test',
+      ubication: 'test',
+      total_area: 'test',
+      holding_id: 'test',
+    }
+
+    const mockResponse = {
+      data: {
+        id: 'test',
+        cadastral_record: 'test',
+        department_id: 'test',
+        municipality_id: 'test',
+        village_id: 'test',
+        name: 'test',
+        ubication: 'test',
+        total_area: 'test',
+        holding_id: 'test',
+        department: 'test',
+        municipality: 'test',
+        village: 'test',
+        holding: 'test',
+        lotes: [],
+        available_area: 'test',
+      }
+    }
+    component.formulario.setValue(mockForm);
+    spyOn(fincasService, 'actualizarFinca').and.returnValue(throwError({error:true}));
+    spyOn(fincasService, 'eventoActualizarFinca');
+    spyOn(alertService, 'activarLoading');
+    component.submit();
+    
+    expect(component.formulario.controls['lotes'].value).toEqual(mockForm.lotes);
+    doneFn();
+  });
+  
+  it("changeDpto, whitout municipio", function(doneFn){
+    spyOn(parametricasService, 'getMunicipiosPorDpto').and.returnValue(of({error:true}));
+    component.changeDpto({});
+    doneFn();
+  });
+
+  it("changeDpto, whit municipio", function(doneFn){
+    spyOn(parametricasService, 'getMunicipiosPorDpto').and.returnValue(of({error:true}));
+    component.changeDpto({}, 'vcio');
+    doneFn();
+  });
   
 });

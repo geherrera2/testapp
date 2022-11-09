@@ -15,7 +15,7 @@ export class FincasModel {
     lotes: ListaLotesModel[];
     available_area: string;
 
-    constructor(data) {
+    constructor(data:any) {
         this.id = data?.id ?? '';
         this.cadastral_record = data?.cadastral_record ?? '';
         this.department_id = data?.department_id ?? '';

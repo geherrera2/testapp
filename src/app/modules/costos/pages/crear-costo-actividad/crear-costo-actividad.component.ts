@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ParametricasModel } from '@shared/models/parametricas.model';
 import { FincasService } from '../../../fincas/services/fincas/fincas.service';
 import { LotesService } from '../../../fincas/services/lotes/lotes.service';
-import { IonSlides, ModalController, NavController, Platform, ViewDidEnter, ViewDidLeave, ViewWillLeave } from '@ionic/angular';
+import { IonSlides, ModalController, NavController, Platform, ViewDidEnter, ViewWillLeave } from '@ionic/angular';
 import { CrearInsumoComponent } from '../../components/crear-insumo/crear-insumo.component';
 import { ParametricasService } from '../../../shared/services/parametricas/parametricas.service';
 import * as moment from 'moment';
@@ -73,10 +73,7 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
 
 
   ionViewDidEnter() {
-    // this.backButtonSub = this.platform.backButton?.subscribeWithPriority(
-    //   10000,
-    //   () => this.onBack()
-    // );
+    console.log("codigo")
   }
 
   ionViewWillLeave() {
@@ -130,7 +127,6 @@ export class CrearCostoActividadComponent implements OnInit , ViewDidEnter, View
   changeFinca(event){
     this.lotesService.getLotes(event).subscribe((lotes: any) => {
       this.listadoLotesFinca = lotes;
-    }, err => {
     });
   }
 
