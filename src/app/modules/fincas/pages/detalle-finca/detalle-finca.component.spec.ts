@@ -235,5 +235,30 @@ describe("DetalleFincaComponent", () => {
     component.getGps();
   });
 
+  it("setFormulario", function () {
+    const mockForm = {
+      id: "test",
+      lotes: "test",
+      cadastral_record: "test",
+      department_id: "test",
+      municipality_id: "test",
+      village_id: "test",
+      name: "test",
+      ubication: "test",
+      total_area: "test",
+      holding_id: "test",
+    };
+
+    
+    component.setFormulario(mockForm);
+    expect(component.formulario.controls['lotes'].value).toEqual(mockForm.lotes)
+  });
+
+  it("setFormulario: null", function () {
+    
+    component.setFormulario(null);
+    expect(component.formulario.controls['lotes'].value).toEqual('')
+  });
+
 });
 

@@ -124,7 +124,7 @@ export class DetalleFincaComponent implements OnInit, OnDestroy {
     return formulario;
   }
 
-  private setFormulario(data: any) {
+  setFormulario(data: any) {
     this.formulario.controls.id.setValue(data?.id ?? "");
     this.formulario.controls.lotes.setValue(data?.lotes ?? "");
     this.formulario.controls.cadastral_record.setValue(
@@ -201,26 +201,6 @@ export class DetalleFincaComponent implements OnInit, OnDestroy {
           }
         );
     }
-  }
-
-  segmentChanged(ev: any) {
-    this.segmentSeletcted = ev.detail.value;
-    if (this.segmentSeletcted === "detalle") {
-      this.ionSlides.slidePrev(100);
-    } else {
-      this.ionSlides.slideNext(100);
-    }
-  }
-
-  slideDidChange(slides: IonSlides) {
-    this.ionSlides = slides;
-    this.ionSlides.getActiveIndex().then((data) => {
-      if (data === 0) {
-        this.segmentSeletcted = "detalle";
-      } else {
-        this.segmentSeletcted = "lotes";
-      }
-    });
   }
 
   slidesDidLoad(slides: IonSlides) {
