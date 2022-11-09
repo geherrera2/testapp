@@ -6,7 +6,7 @@ import { FormGroup } from "@angular/forms";
 })
 export class GpsService {
 
-  getGps(formulario: FormGroup) {
+  public getGps(formulario: FormGroup ) {
     formulario.controls?.ubication?.setValue(
       `${51.5285582}, ${-0.2416797}`
     );

@@ -56,7 +56,6 @@ export class CrearFincaModalComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.formulario.getRawValue());
     
     if (this.formulario.invalid ) {
       this.formulario.markAllAsTouched();
@@ -64,9 +63,9 @@ export class CrearFincaModalComponent implements OnInit {
       this.valueVillage = this.formulario.controls.village_id.value;
       const tempDpto = this.parametricas.departments.find( x => x.code == this.formulario.controls.department_id.value);
       const tempMpio = this.parametricas.municipalities.find( x => x.code == this.formulario.controls.municipality_id.value);
-      this.formulario.controls.department_id.setValue(tempDpto.id);
-      this.formulario.controls.municipality_id.setValue(tempMpio.id);
-      this.formulario.controls.municipality_id.setValue(tempMpio.id);
+      this.formulario.controls.department_id.setValue(tempDpto?.id);
+      this.formulario.controls.municipality_id.setValue(tempMpio?.id);
+      this.formulario.controls.municipality_id.setValue(tempMpio?.id);
       this.formulario.controls.village_id.setValue(this.valueVillage);
 
       this.alertService.activarLoading(true);
