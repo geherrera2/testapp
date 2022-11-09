@@ -16,7 +16,7 @@ export class GpsService {
 
   getGps(formulario: FormGroup) {
     this.androidPermissions
-      .checkPermission(
+      ?.checkPermission(
         this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
       )
       .then(

@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './finca-formulario.component.html',
   styleUrls: ['./finca-formulario.component.scss'],
 })
-export class FincaFormularioComponent implements OnInit {
+export class FincaFormularioComponent {
 
   @Input() formulario:FormGroup;
   @Input() currentDate:any;
@@ -15,12 +15,12 @@ export class FincaFormularioComponent implements OnInit {
   @Output() submitEvent = new EventEmitter<boolean>();
   @Output() eliminarEvent = new EventEmitter<boolean>();
 
-  constructor() { }
+  eliminar(){
+    this.eliminarEvent.emit(true);
+  }
 
-  ngOnInit() {}
-
-  eliminar(){}
-
-  submit(){}
+  submit(){
+    this.submitEvent.emit(true)
+  }
 
 }
