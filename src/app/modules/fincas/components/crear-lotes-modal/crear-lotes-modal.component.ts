@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { ModalController } from "@ionic/angular";
-import { AlertService } from "@shared/services/alert/alert.service";
-import { LotesService } from "../../services/lotes/lotes.service";
-import { ParametricasService } from "../../../shared/services/parametricas/parametricas.service";
-import { ParametricasModel } from "../../../shared/models/parametricas.model";
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { AlertService } from '@shared/services/alert/alert.service';
+import { LotesService } from '../../services/lotes/lotes.service';
+import { ParametricasService } from '../../../shared/services/parametricas/parametricas.service';
+import { ParametricasModel } from '../../../shared/models/parametricas.model';
 
-import * as moment from "moment";
-import { Router } from "@angular/router";
-import { GpsService } from "@shared/services/gps/gps.service";
+import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { GpsService } from '@shared/services/gps/gps.service';
 
 @Component({
   selector: "app-crear-lotes-modal",
@@ -30,8 +30,8 @@ export class CrearLotesModalComponent implements OnInit {
     private lotesService: LotesService,
     private parametricasService: ParametricasService,
     private router: Router,
-    public gpsService: GpsService
-  ) {}
+    public gpsService:GpsService
+  ) { }
 
   ngOnInit() {
     this.parametricas = this.parametricasService.param;
@@ -54,55 +54,41 @@ export class CrearLotesModalComponent implements OnInit {
       this.lotesService.crearLote(this.formulario.getRawValue()).subscribe(
         (data: any) => {
           this.alertService.activarLoading(false);
-          this.alertService.presentAlert(
-            "El lote se creó correctamente. ¿desea crear un análisis ?",
-            [
-              // {
-              //   text: 'Aceptar',
-              //   handler: () => {
-              //     this.modalController.dismiss({datos: data.data});
-              //   }
-              // }
-              {
-                text: "Cancelar",
-                handler: () => {
-                  this.modalController.dismiss({ datos: data.data });
-                },
-              },
-              {
-                text: "Aceptar",
-                handler: () => {
-                  const temp =
-                    this.areaDisponible -
-                    parseInt(this.formulario.controls.total_area.value);
-                  this.modalController.dismiss({ datos: data.data });
-                  this.router.navigate([
-                    "dashboard/tabs/fincas/lote/detalle/" + data.data.id,
-                    {
-                      id: data.data.id,
-                      name: data.data.name,
-                      areaDisponible: temp,
-                      redirect: "crear",
-                    },
-                  ]);
-                },
-              },
-            ],
-            "Registro creado"
-          );
-        },
-        (error) => {
+          this.alertService.presentAlert('El lote se creó correctamente. ¿desea crear un análisis ?', [
+            // {
+            //   text: 'Aceptar',
+            //   handler: () => {
+            //     this.modalController.dismiss({datos: data.data});
+            //   }
+            // }
+            {
+              text: 'Cancelar',
+              handler: () => {
+                this.modalController.dismiss({datos: data.data});
+              }
+            },
+            {
+              text: 'Aceptar',
+              handler: () => {
+
+                const temp = this.areaDisponible - parseInt(this.formulario.controls.total_area.value);
+                this.modalController.dismiss({datos: data.data});
+                this.router.navigate([
+                  'dashboard/tabs/fincas/lote/detalle/' + data.data.id,
+                  { id: data.data.id, name: data.data.name, areaDisponible: temp, redirect: 'crear' }
+                ]);
+              }
+            }
+          ], 'Registro creado');
+        }, error => {
           this.alertService.activarLoading(false);
-          this.alertService.presentAlert(
-            "Se produjo un error en el registro de el lote",
-            ["Aceptar"]
-          );
-        }
-      );
+          this.alertService.presentAlert('Se produjo un error en el registro de el lote', ['Aceptar']);
+        });
     }
   }
 
-  close() {
-    this.modalController.dismiss({ datos: null });
+  close(){
+    this.modalController.dismiss({datos: null});
   }
+
 }
